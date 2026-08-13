@@ -13,6 +13,19 @@ let user_list: User[] = [{
 
 export default class UserController{
     
+    get_user(req: Request <{id: string}>, res: Response){
+        const id = parseInt(req.params.id)
+        if ( id >= 0 ){
+            let find_user = user_list.find((find) => find.id == id)
+            if ( find_user != undefined )
+                res.status(201).json(find_user)
+            else
+                res.status(404).json("User not found...")
+        }
+        else
+            res.status(404).json("Params not defined!")
+    }
+
     list(_req: Request,res: Response){
         res.status(200).json(user_list)
     }
@@ -29,26 +42,27 @@ export default class UserController{
 
     update(req: Request, res: Response){
         const {id, name} = req.body
-        if ( id != null && id != undefined){
+        if ( id >= 0 && name != " " ){
             let find_user = user_list.find((user) => user.id == id)
             if ( find_user != undefined){
                 find_user.name = name
                 res.status(201).json(user_list)
             }else
-                res.status(500).json("Request not fold")
+                res.status(404).json("Request not fold")
         }else
             res.status(400).json("Params not defined!")
     }
 
-    delete(req: Request, res: Response){
-        const {id} = req.body
-        if ( id != null && id != undefined ){
+    delete(req: Request<{id: string}> , res: Response){
+        const id = parseInt(req.params.id)
+        if ( id >= 0 ){
+           let find_user = user_list.find((user) => user.id == id)
+           if ( find_user != undefined ){
             user_list = user_list.filter((user) => user.id != id)
-            if (user_list.find((user) => user.id != id))
-                res.status(201).json(user_list)
-            else
-                res.status(500).json("Request not fold") 
+            res.status(201).json(user_list)
+           } else
+            res.status(404).json("Params not defined")
         }  else
-            res.status(400).json("Params not defined")
+            res.status(404).json("Params not defined")
     }
 }
