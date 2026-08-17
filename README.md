@@ -1,87 +1,74 @@
 # API-typescript
 
 ## Como configurar o TypeScript
+## Requisitos
 
-### 1. Iniciar o projeto
+- Node.js 22.18+ ou 24+ (executa TypeScript nativamente)
+- npm
 
-```bash
-npm init -y
-```
-
-### 2. Instalar as dependências
+## Instalação
 
 ```bash
-npm install -D typescript ts-node @types/node
+npm install
 ```
 
-- `typescript` — compilador
-- `ts-node` — roda arquivos `.ts` sem compilar antes
-- `@types/node` — tipos do Node (fs, path, process...)
-
-### 3. Criar o `tsconfig.json`
+Dependências do projeto:
 
 ```bash
-npx tsc --init
+npm i express
+npm i -D typescript @types/node @types/express
 ```
 
-Ajuste as opções principais:
+> Não use `ts-node`. A última versão estável (10.9.2) é de dez/2023 e é
+> incompatível com o TypeScript 7. O Node executa `.ts` direto.
+
+## Scripts
+
+```bash
+npm run dev        # sobe o servidor com hot reload
+npm run typecheck  # verifica os tipos
+npm run build      # compila para dist/
+npm start          # roda o build
+```
 
 ```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true
-  },
-  "include": ["src/**/*"]
-}
-```
-
-- `rootDir` — onde fica o código `.ts`
-- `outDir` — onde o JavaScript compilado é gerado
-- `strict` — ativa a checagem de tipos rigorosa
-
-### 4. Criar a pasta do código
-
-```
-src/
-  server.ts
-```
-
-### 5. Adicionar os scripts no `package.json`
-
-```json
+"type": "module",
 "scripts": {
-  "dev": "ts-node src/server.ts",
+  "dev": "node --watch src/server.ts",
+  "typecheck": "tsc --noEmit",
   "build": "tsc",
   "start": "node dist/server.js"
 }
 ```
 
-### 6. Ignorar a pasta compilada no `.gitignore`
+## tsconfig.json
 
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*"]
+}
 ```
-node_modules/
-dist/
-```
 
-## Comandos
+Os flags importantes:
 
-| Comando | O que faz |
+| Flag | Para quê |
 |---|---|
-| `npm run dev` | Roda o projeto em desenvolvimento |
-| `npm run build` | Compila `src/` para `dist/` |
-| `npm start` | Roda o código já compilado |
-
-## Erro no `req.params.id` (Express 5)
-
-```
-error TS2345: Argument of type 'string | string[]'
-is not assignable to parameter of type 'string'.
-```
+| `module: nodenext` | Faz o `tsc` seguir o `type` do package.json — evita gerar CommonJS num projeto ESM |
+| `verbatimModuleSyntax` | Acusa erro de compilação se ESM e CommonJS se misturarem |
+| `erasableSyntaxOnly` | Bloqueia sintaxe que o Node não executa (`enum`, `namespace`, decorators) |
+| `rewriteRelativeImportExtensions` | Converte `.ts` → `.js` nos imports ao compilar |
 
 ### O que está acontecendo
 
