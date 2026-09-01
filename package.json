@@ -1,24 +1,13 @@
 {
-  "dependencies": {
-    "@tsconfig/node20": "^20.1.9",
-    "express": "^5.2.1"
-  },
   "name": "api-typescript",
   "version": "1.0.0",
   "description": "API em TypeScript",
-  "main": "dist/index.js",
-  "type": "commonjs",
-  "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^20.0.0",
-    "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
-  },
+  "type": "module",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "node --watch src/server.ts",
+    "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "start": "npm run build && node dist/server.js"
+    "start": "node src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -30,5 +19,14 @@
   "bugs": {
     "url": "https://github.com/ryan-ggarcia/API-typescript/issues"
   },
-  "homepage": "https://github.com/ryan-ggarcia/API-typescript#readme"
+  "homepage": "https://github.com/ryan-ggarcia/API-typescript#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
+  }
 }
