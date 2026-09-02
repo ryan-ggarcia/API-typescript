@@ -11,3 +11,5 @@ router.post('/', controller.Create)
 router.put('/', controller.Update)
 router.delete('/:id', controller.Delete)
 router.get('/:id', controller.Read)
+
+export default router

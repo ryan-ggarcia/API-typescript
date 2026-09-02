@@ -9,7 +9,7 @@ export default class PerfilDAO implements IDAO<PerfilModel>{
     constructor(db: Database){ this.db = db };
 
     async Create(entity:PerfilModel): Promise<number>{
-        const query = "INSERT per_descricao into tb_perfil value (?)";
+        const query = "INSERT INTO per_descricao (tb_perfil) value (?)";
         const value = [entity.descricao];
         let result = await this.db.ExecutaComandoLastInserted(query,value);
         return result > 0 ? result : 0;
