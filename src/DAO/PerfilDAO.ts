@@ -1,15 +1,15 @@
 import Database from "../db/db.ts";
 import PerfilModel from "../Model/PerfilModel.ts";
-import type { IDAO } from "./IDAO.ts";
+import type { IPerfilModel } from "./IDAO.ts";
 
 type LinhaPerfil = {per_id: number, per_descricao:string}
 
-export default class PerfilDAO implements IDAO<PerfilModel>{
+export default class PerfilDAO implements IPerfilModel{
     private db: Database;
     constructor(db: Database){ this.db = db };
 
     async Create(entity:PerfilModel): Promise<number>{
-        const query = "INSERT INTO per_descricao (tb_perfil) value (?)";
+        const query = "INSERT INTO tb_perfil (per_descricao) value (?)";
         const value = [entity.descricao];
         let result = await this.db.ExecutaComandoLastInserted(query,value);
         return result > 0 ? result : 0;

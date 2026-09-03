@@ -6,10 +6,10 @@ import Database from '../db/db.ts'
 const router = express.Router()
 let controller = new PeriflController(new PerfilDAO( new Database))
 
-router.get('/', controller.List)
-router.post('/', controller.Create)
-router.put('/', controller.Update)
-router.delete('/:id', controller.Delete)
-router.get('/:id', controller.Read)
+router.get('/', (req,res) => controller.List(req,res))
+router.post('/', (req,res) => controller.Create(req,res))
+router.put('/', (req,res) => controller.Update(req,res))
+router.delete('/:id', (req,res) => controller.Delete(req,res))
+router.get('/:id', (req,res) => controller.Read(req,res))
 
 export default router

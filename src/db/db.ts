@@ -4,12 +4,12 @@ export default class Database {
 
     // pool compartilhado por todas as instâncias: criado uma vez, quando a classe carrega
     static #pool: Pool = mysql.createPool({
-        host: process.env.DB_HOST,          // endereço do banco na nuvem
-        database: process.env.DB_NAME,      // PFS2_(RA)
-        user: process.env.DB_USER,          // RA
-        password: process.env.DB_PASSWORD,  // RA
-        idleTimeout: 30000,
-        connectionLimit: 50,
+        host: '132.226.245.178', //endereço do nosso banco de dados na nuvem
+            database: 'PFS2_10442519210', //a database de cada um de vocês possui a nomenclatura PFS2_(RA)
+            user: '10442519210', // usuario e senha de cada um de vocês é o RA
+            password: '10442519210',
+            idleTimeout: 30000,
+            connectionLimit: 50
     });
 
     async ExecutaComando(sql: string, valores: any[]): Promise<RowDataPacket[]> {

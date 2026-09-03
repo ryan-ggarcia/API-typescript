@@ -1,11 +1,11 @@
-import type { IDAO } from "../DAO/IDAO.ts";
+import type { IPerfilModel } from "../DAO/IDAO.ts";
 import PerfilModel from "../Model/PerfilModel.ts";
 import { type Request, type Response } from "express";
 
 export default class PeriflController {
-    private Idao: IDAO<PerfilModel>;
+    private Idao: IPerfilModel;
 
-    constructor(Idao: IDAO<PerfilModel>) {
+    constructor(Idao: IPerfilModel) {
         this.Idao = Idao;
     }
 
